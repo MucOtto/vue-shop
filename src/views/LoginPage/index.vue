@@ -91,10 +91,12 @@ export default {
       // 短信验证码格式不对
       if (!/\d{6}/.test(this.msgCode)) return
       const res = await validLogin(this.phone, this.msgCode)
+      // 将返回的token和对应的userId存入到vuex当中
+      this.$store.commit('user/setUserInfo', res.data)
+      console.log(res)
       // 登陆成功
       if (res.status === 200) {
         this.$router.push('/')
-        this.$toast('登陆成功')
       }
     }
   },

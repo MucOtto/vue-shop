@@ -6,7 +6,7 @@ export default {
 
 <template>
   <div>
-
+    OrderPage
   </div>
 </template>
 

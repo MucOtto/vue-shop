@@ -11,6 +11,7 @@ import Home from '@/views/HomePage/Home.vue'
 import Category from '@/views/HomePage/Category.vue'
 import Shoppingcart from '@/views/HomePage/Shoppingcart.vue'
 import User from '@/views/HomePage/User.vue'
+import store from '@/store'
 
 Vue.use(VueRouter)
 
@@ -37,6 +38,22 @@ const routes = [
 
 const router = new VueRouter({
   routes
+})
+
+// 需要登陆态才能访问的url
+const authUrl = ['/pay', '/order']
+router.beforeEach((to, from, next) => {
+  // 如果访问页面不需要登陆态直接放行
+  if (!authUrl.includes(to.path)) {
+    next()
+    return
+  }
+  // 检验token 存在放行不存在跳转登陆页
+  const token = store.getters.token
+  if (!token) {
+    next('/login')
+  }
+  next()
 })
 
 export default router
